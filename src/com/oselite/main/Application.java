@@ -23,6 +23,7 @@ public class Application {
 	private JTextField nameTextField;
 	private JTextField priceTextField;
 	private JButton btnDelete;
+	private JTextField amountTextField;
 	
 
 	/**
@@ -78,7 +79,7 @@ public class Application {
 				}
 			}
 		});
-		btnLoad.setBounds(52, 243, 117, 29);
+		btnLoad.setBounds(0, 243, 108, 29);
 		frame.getContentPane().add(btnLoad);
 		
 		nameTextField = new JTextField();
@@ -94,40 +95,22 @@ public class Application {
 		JButton btnAddButton = new JButton("ADD");
 		btnAddButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				/*
 				
+				String name = nameTextField.getText();
+				String price = priceTextField.getText();
+				int amount = Integer.parseInt(amountTextField.getText());
+	
 				try {
-					myConnection = DriverManager.getConnection("jdbc:mysql://localhost:3306/basket", "student" , "student");
-					
-					System.out.println("Database connection successful!\n");
-					
-					// 2. Create a statement
-					myStatement = myConnection.createStatement();
-					
-					String name = textField.getText();
-					String price = textField_1.getText();
-					String query = "insert into items (name, price) values ('"+ name + "', " + price + ")";
-										
-					int added = myStatement.executeUpdate(query);
-					
-					model.setRowCount(0);
-					
-					myResult = myStatement.executeQuery("select * from items");
-					
-					while(myResult.next())
-					{
-					    String id = myResult.getString("id");
-					    String n = myResult.getString("name");
-					    String p = myResult.getString("price");
-					    model.addRow(new Object[]{id, n, p});
-					}
-					
-					table.setModel(model);
-					
-				*/
+					myBasket.addItem(name, price, amount);
+					myBasket.showAllItems();
+					table.setModel(myBasket.createModel());
+				} catch (SQLException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}	
 			}
 		});
-		btnAddButton.setBounds(327, 115, 117, 29);
+		btnAddButton.setBounds(327, 137, 117, 29);
 		frame.getContentPane().add(btnAddButton);
 		
 		JLabel lblNewLabel = new JLabel("Name");
@@ -141,42 +124,44 @@ public class Application {
 		btnDelete = new JButton("DELETE");
 		btnDelete.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				/*
-					myConnection = DriverManager.getConnection("jdbc:mysql://localhost:3306/basket", "student" , "student");
-					
-					System.out.println("Database connection successful!\n");
-					
-					// 2. Create a statement
-					myStatement = myConnection.createStatement();
-					
-										
+				
+				try {
 					int row = table.getSelectedRow();
 					String cell = table.getModel().getValueAt(row, 0).toString();
-					
-					String query = "delete from items where id=" + cell;
-
-					
-					int deleted = myStatement.executeUpdate(query);
-					
-					model.setRowCount(0);
-					
-					myResult = myStatement.executeQuery("select * from items");
-					
-					while(myResult.next())
-					{
-					    String id = myResult.getString("id");
-					    String n = myResult.getString("name");
-					    String p = myResult.getString("price");
-					    model.addRow(new Object[]{id, n, p});
-					}
-					
-					table.setModel(model);
-					
-				*/
-				
+					myBasket.deleteItem(cell);
+					myBasket.showAllItems();
+					table.setModel(myBasket.createModel());
+				} catch (SQLException e1) {
+					e1.printStackTrace();
+				}				
 			}
 		});
-		btnDelete.setBounds(327, 143, 117, 29);
+		btnDelete.setBounds(327, 168, 117, 29);
 		frame.getContentPane().add(btnDelete);
+		
+		JButton btnNewButton = new JButton("CLEAR");
+		btnNewButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				try {
+					myBasket.deleteAllItems();
+					myBasket.showAllItems();
+					table.setModel(myBasket.createModel());
+				} catch (SQLException e1) {
+					e1.printStackTrace();
+				}
+			}
+		});
+		btnNewButton.setBounds(116, 243, 108, 29);
+		frame.getContentPane().add(btnNewButton);
+		
+		amountTextField = new JTextField();
+		amountTextField.setBounds(314, 99, 130, 26);
+		frame.getContentPane().add(amountTextField);
+		amountTextField.setColumns(10);
+		
+		JLabel lblAmount = new JLabel("Amount");
+		lblAmount.setBounds(241, 104, 61, 16);
+		frame.getContentPane().add(lblAmount);
 	}
 }
