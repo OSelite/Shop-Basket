@@ -20,8 +20,8 @@ public class Application {
 
 	private JFrame frame;
 	private JTable table;
-	private JTextField textField;
-	private JTextField textField_1;
+	private JTextField nameTextField;
+	private JTextField priceTextField;
 	private JButton btnDelete;
 	
 
@@ -43,78 +43,58 @@ public class Application {
 
 	/**
 	 * Create the application.
+	 * @throws SQLException 
 	 */
-	public Application() {
+	public Application() throws SQLException {
 		initialize();
 	}
 
 	/**
 	 * Initialize the contents of the frame.
+	 * @throws SQLException 
 	 */
-	private void initialize() {
+	private void initialize() throws SQLException {
 		frame = new JFrame();
 		frame.setBounds(100, 100, 450, 300);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 		
-		DefaultTableModel model = new DefaultTableModel();
-		model.addColumn("id");
-		model.addColumn("name");
-		model.addColumn("price");
-		
-		table = new JTable(model);
+		table = new JTable();
 		table.setBounds(6, 6, 218, 229);
 		frame.getContentPane().add(table);
+		
+		Basket myBasket = new Basket();
+		
 		
 		JButton btnLoad = new JButton("LOAD");
 		btnLoad.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 			
-				model.setRowCount(0);
 				try {
-					myConnection = DriverManager.getConnection("jdbc:mysql://localhost:3306/basket", "student" , "student");
-					
-					System.out.println("Database connection successful!\n");
-					
-					// 2. Create a statement
-					myStatement = myConnection.createStatement();
-					
-					// 3. Execute SQL query
-					
-					myResult = myStatement.executeQuery("select * from items");
-					
-					while(myResult.next())
-					{
-					    String id = myResult.getString("id");
-					    String name = myResult.getString("name");
-					    String price = myResult.getString("price");
-					    model.addRow(new Object[]{id, name, price});
-					}
-					
-					table.setModel(model);
-					
-				} catch (Exception exc) {
-					exc.printStackTrace();
+					myBasket.showAllItems();
+					table.setModel(myBasket.createModel());
+				} catch (SQLException e1) {
+					e1.printStackTrace();
 				}
-				
 			}
 		});
 		btnLoad.setBounds(52, 243, 117, 29);
 		frame.getContentPane().add(btnLoad);
 		
-		textField = new JTextField();
-		textField.setBounds(314, 24, 130, 26);
-		frame.getContentPane().add(textField);
-		textField.setColumns(10);
+		nameTextField = new JTextField();
+		nameTextField.setBounds(314, 24, 130, 26);
+		frame.getContentPane().add(nameTextField);
+		nameTextField.setColumns(10);
 		
-		textField_1 = new JTextField();
-		textField_1.setBounds(314, 63, 130, 26);
-		frame.getContentPane().add(textField_1);
-		textField_1.setColumns(10);
+		priceTextField = new JTextField();
+		priceTextField.setBounds(314, 63, 130, 26);
+		frame.getContentPane().add(priceTextField);
+		priceTextField.setColumns(10);
 		
 		JButton btnAddButton = new JButton("ADD");
 		btnAddButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				/*
 				
 				try {
 					myConnection = DriverManager.getConnection("jdbc:mysql://localhost:3306/basket", "student" , "student");
@@ -144,9 +124,7 @@ public class Application {
 					
 					table.setModel(model);
 					
-				}catch (Exception exc) {
-					exc.printStackTrace();
-				}
+				*/
 			}
 		});
 		btnAddButton.setBounds(327, 115, 117, 29);
@@ -163,8 +141,7 @@ public class Application {
 		btnDelete = new JButton("DELETE");
 		btnDelete.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				
-				try {
+				/*
 					myConnection = DriverManager.getConnection("jdbc:mysql://localhost:3306/basket", "student" , "student");
 					
 					System.out.println("Database connection successful!\n");
@@ -195,9 +172,7 @@ public class Application {
 					
 					table.setModel(model);
 					
-				}catch (Exception exc) {
-					exc.printStackTrace();
-				}
+				*/
 				
 			}
 		});
