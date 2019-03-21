@@ -28,7 +28,7 @@ public class Basket {
 	}
 	
 	public void deleteAllItems() throws SQLException {
-		int delete = statement.executeUpdate("DELETE * FROM items");
+		int delete = statement.executeUpdate("DELETE FROM items");
 	}
 	
 	public void addItem(String name, String price, int amount) throws SQLException {

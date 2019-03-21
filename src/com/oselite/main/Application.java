@@ -61,7 +61,7 @@ public class Application {
 		frame.getContentPane().setLayout(null);
 		
 		table = new JTable();
-		table.setBounds(6, 6, 218, 229);
+		table.setBounds(6, 32, 233, 182);
 		frame.getContentPane().add(table);
 		
 		Basket myBasket = new Basket();
@@ -83,12 +83,12 @@ public class Application {
 		frame.getContentPane().add(btnLoad);
 		
 		nameTextField = new JTextField();
-		nameTextField.setBounds(314, 24, 130, 26);
+		nameTextField.setBounds(327, 24, 117, 26);
 		frame.getContentPane().add(nameTextField);
 		nameTextField.setColumns(10);
 		
 		priceTextField = new JTextField();
-		priceTextField.setBounds(314, 63, 130, 26);
+		priceTextField.setBounds(327, 63, 117, 26);
 		frame.getContentPane().add(priceTextField);
 		priceTextField.setColumns(10);
 		
@@ -114,11 +114,11 @@ public class Application {
 		frame.getContentPane().add(btnAddButton);
 		
 		JLabel lblNewLabel = new JLabel("Name");
-		lblNewLabel.setBounds(241, 29, 61, 16);
+		lblNewLabel.setBounds(251, 29, 61, 16);
 		frame.getContentPane().add(lblNewLabel);
 		
 		JLabel lblPrice = new JLabel("Price");
-		lblPrice.setBounds(241, 68, 61, 16);
+		lblPrice.setBounds(251, 68, 61, 16);
 		frame.getContentPane().add(lblPrice);
 		
 		btnDelete = new JButton("DELETE");
@@ -156,12 +156,36 @@ public class Application {
 		frame.getContentPane().add(btnNewButton);
 		
 		amountTextField = new JTextField();
-		amountTextField.setBounds(314, 99, 130, 26);
+		amountTextField.setBounds(327, 99, 117, 26);
 		frame.getContentPane().add(amountTextField);
 		amountTextField.setColumns(10);
 		
 		JLabel lblAmount = new JLabel("Amount");
-		lblAmount.setBounds(241, 104, 61, 16);
+		lblAmount.setBounds(251, 104, 61, 16);
 		frame.getContentPane().add(lblAmount);
+		
+		JLabel lblName = new JLabel("Name");
+		lblName.setBounds(6, 16, 61, 16);
+		frame.getContentPane().add(lblName);
+		
+		JLabel lblCena = new JLabel("Price");
+		lblCena.setBounds(79, 16, 61, 16);
+		frame.getContentPane().add(lblCena);
+		
+		JLabel lblAmount_1 = new JLabel("Amount");
+		lblAmount_1.setBounds(152, 16, 61, 16);
+		frame.getContentPane().add(lblAmount_1);
+		
+		JLabel lblTotal = new JLabel("Total:");
+		lblTotal.setBounds(6, 215, 61, 16);
+		frame.getContentPane().add(lblTotal);
+		
+		JLabel lblEmpty = new JLabel("0");
+		lblEmpty.setBounds(79, 215, 61, 16);
+		frame.getContentPane().add(lblEmpty);
+		
+		JLabel label_1 = new JLabel("0");
+		label_1.setBounds(152, 215, 61, 16);
+		frame.getContentPane().add(label_1);
 	}
 }
