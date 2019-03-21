@@ -15,6 +15,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.JTextField;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 
 public class Application {
 
@@ -56,7 +57,8 @@ public class Application {
 	 */
 	private void initialize() throws SQLException {
 		frame = new JFrame();
-		frame.setBounds(100, 100, 450, 300);
+		frame.setResizable(false);
+		frame.setBounds(100, 100, 453, 302);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 		
@@ -64,23 +66,22 @@ public class Application {
 		table.setBounds(6, 32, 233, 182);
 		frame.getContentPane().add(table);
 		
+		JLabel lblTotalPrice = new JLabel("0");
+		lblTotalPrice.setBounds(79, 215, 61, 16);
+		frame.getContentPane().add(lblTotalPrice);
+		
+		JLabel lblTotalAmount = new JLabel("0");
+		lblTotalAmount.setBounds(152, 215, 61, 16);
+		frame.getContentPane().add(lblTotalAmount);
+		
 		Basket myBasket = new Basket();
 		
+		myBasket.showAllItems();
+		table.setModel(myBasket.createModel());
+		myBasket.sumOfPrice(lblTotalPrice);
+		myBasket.sumOfItems(lblTotalAmount);
+			//lblTotalAmount
 		
-		JButton btnLoad = new JButton("LOAD");
-		btnLoad.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-			
-				try {
-					myBasket.showAllItems();
-					table.setModel(myBasket.createModel());
-				} catch (SQLException e1) {
-					e1.printStackTrace();
-				}
-			}
-		});
-		btnLoad.setBounds(0, 243, 108, 29);
-		frame.getContentPane().add(btnLoad);
 		
 		nameTextField = new JTextField();
 		nameTextField.setBounds(327, 24, 117, 26);
@@ -104,6 +105,8 @@ public class Application {
 					myBasket.addItem(name, price, amount);
 					myBasket.showAllItems();
 					table.setModel(myBasket.createModel());
+					myBasket.sumOfPrice(lblTotalPrice);
+					myBasket.sumOfItems(lblTotalAmount);
 				} catch (SQLException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
@@ -125,12 +128,20 @@ public class Application {
 		btnDelete.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
+				int row = table.getSelectedRow();
+				
 				try {
-					int row = table.getSelectedRow();
-					String cell = table.getModel().getValueAt(row, 0).toString();
-					myBasket.deleteItem(cell);
-					myBasket.showAllItems();
-					table.setModel(myBasket.createModel());
+					
+					if(row != -1) {
+						String cell = table.getModel().getValueAt(row, 0).toString();
+						myBasket.deleteItem(cell);
+						myBasket.showAllItems();
+						table.setModel(myBasket.createModel());
+						myBasket.sumOfPrice(lblTotalPrice);
+						myBasket.sumOfItems(lblTotalAmount);
+					} else
+						JOptionPane.showMessageDialog(null, "Choose item first!");
+
 				} catch (SQLException e1) {
 					e1.printStackTrace();
 				}				
@@ -147,12 +158,14 @@ public class Application {
 					myBasket.deleteAllItems();
 					myBasket.showAllItems();
 					table.setModel(myBasket.createModel());
+					myBasket.sumOfPrice(lblTotalPrice);
+					myBasket.sumOfItems(lblTotalAmount);
 				} catch (SQLException e1) {
 					e1.printStackTrace();
 				}
 			}
 		});
-		btnNewButton.setBounds(116, 243, 108, 29);
+		btnNewButton.setBounds(6, 243, 108, 29);
 		frame.getContentPane().add(btnNewButton);
 		
 		amountTextField = new JTextField();
@@ -180,12 +193,6 @@ public class Application {
 		lblTotal.setBounds(6, 215, 61, 16);
 		frame.getContentPane().add(lblTotal);
 		
-		JLabel lblEmpty = new JLabel("0");
-		lblEmpty.setBounds(79, 215, 61, 16);
-		frame.getContentPane().add(lblEmpty);
 		
-		JLabel label_1 = new JLabel("0");
-		label_1.setBounds(152, 215, 61, 16);
-		frame.getContentPane().add(label_1);
 	}
 }

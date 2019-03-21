@@ -2,6 +2,7 @@ package com.oselite.basket;
 
 import java.sql.*;
 
+import javax.swing.JLabel;
 import javax.swing.table.DefaultTableModel;
 
 
@@ -24,11 +25,12 @@ public class Basket {
 	
 	public void showAllItems() throws SQLException {
 		clearTable();
-		result = statement.executeQuery("select * from items");
+		this.result = statement.executeQuery("select * from items");
 	}
 	
 	public void deleteAllItems() throws SQLException {
 		int delete = statement.executeUpdate("DELETE FROM items");
+		
 	}
 	
 	public void addItem(String name, String price, int amount) throws SQLException {
@@ -39,6 +41,34 @@ public class Basket {
 	public void deleteItem(String cell) throws SQLException {
 		String query = "DELETE FROM items WHERE name='" + cell + "'";
 		int delete = statement.executeUpdate(query);
+	}
+	
+	public void sumOfPrice(JLabel lblPrice) throws SQLException {
+		double sum = 0;
+		
+		result = statement.executeQuery("select * from items");
+				
+		while(result.next())
+		{
+		    sum += result.getDouble("price") * result.getInt("amount");
+		}
+		
+		String txt = Double.toString(sum);
+		lblPrice.setText(txt);
+	}
+	
+	public void sumOfItems(JLabel lblAmount) throws SQLException {
+		int sum = 0;
+		
+		result = statement.executeQuery("select * from items");
+				
+		while(result.next())
+		{
+		    sum += result.getInt("amount");
+		}
+		
+		String txt = Integer.toString(sum);
+		lblAmount.setText(txt);	
 	}
 	
 	/** TABLE METHODS */
