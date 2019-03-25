@@ -1,2 +1,2 @@
 # Shop-Basket
-Java app with Swing and MySQL
+Simple Java desktop app with Swing, MySQL connection & regular expressions

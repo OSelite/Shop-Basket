@@ -1,6 +1,7 @@
 package com.oselite.basket;
 
 import java.sql.*;
+import java.text.DecimalFormat;
 
 import javax.swing.JLabel;
 import javax.swing.table.DefaultTableModel;
@@ -33,18 +34,28 @@ public class Basket {
 		
 	}
 	
-	public void addItem(String name, String price, int amount) throws SQLException {
+	public void addItem(String name, String price, String amount) throws SQLException {
 		String query = "insert into items (name, price, amount) values ('"+ name + "', " + price + "," + amount + ")";
 		int add = statement.executeUpdate(query);
 	}
 	
 	public void deleteItem(String cell) throws SQLException {
+		
+		/*this.result = statement.executeQuery("SELECT FROM items WHERE name='" + cell + "'");
+		int amount = result.getInt("amount");
+		int decrement;
+		
+		if(amount-1 > 0)
+			 decrement = statement.executeUpdate("UPDATE items SET amount=" + amount-1); */
+		
 		String query = "DELETE FROM items WHERE name='" + cell + "'";
 		int delete = statement.executeUpdate(query);
 	}
 	
 	public void sumOfPrice(JLabel lblPrice) throws SQLException {
 		double sum = 0;
+	    DecimalFormat df = new DecimalFormat("#.00");
+
 		
 		result = statement.executeQuery("select * from items");
 				
@@ -53,7 +64,7 @@ public class Basket {
 		    sum += result.getDouble("price") * result.getInt("amount");
 		}
 		
-		String txt = Double.toString(sum);
+		String txt = df.format(sum);
 		lblPrice.setText(txt);
 	}
 	
@@ -69,6 +80,12 @@ public class Basket {
 		
 		String txt = Integer.toString(sum);
 		lblAmount.setText(txt);	
+	}
+	
+	public int getAmount(String cell) throws SQLException{
+		this.result = statement.executeQuery("SELECT * FROM items WHERE name='" + cell + "'");
+		int amount = result.getInt("amount");
+		return amount;
 	}
 	
 	/** TABLE METHODS */

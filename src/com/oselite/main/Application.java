@@ -3,6 +3,8 @@ package com.oselite.main;
 import java.awt.EventQueue;
 import com.oselite.basket.*;
 import java.sql.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.swing.JFrame;
 import java.awt.BorderLayout;
@@ -80,7 +82,6 @@ public class Application {
 		table.setModel(myBasket.createModel());
 		myBasket.sumOfPrice(lblTotalPrice);
 		myBasket.sumOfItems(lblTotalAmount);
-			//lblTotalAmount
 		
 		
 		nameTextField = new JTextField();
@@ -99,17 +100,22 @@ public class Application {
 				
 				String name = nameTextField.getText();
 				String price = priceTextField.getText();
-				int amount = Integer.parseInt(amountTextField.getText());
-	
+				String amount = amountTextField.getText();
+
 				try {
-					myBasket.addItem(name, price, amount);
-					myBasket.showAllItems();
-					table.setModel(myBasket.createModel());
-					myBasket.sumOfPrice(lblTotalPrice);
-					myBasket.sumOfItems(lblTotalAmount);
+					if(Pattern.matches("\\d", amount) && Pattern.matches("\\d*\\.\\d{2}", price)) {
+						myBasket.addItem(name, price, amount);
+						myBasket.showAllItems();
+						table.setModel(myBasket.createModel());
+						myBasket.sumOfPrice(lblTotalPrice);
+						myBasket.sumOfItems(lblTotalAmount);
+						nameTextField.setText("");
+						priceTextField.setText("");
+						amountTextField.setText("");
+					} else
+						JOptionPane.showMessageDialog(null, "Data is incorrect!");
 				} catch (SQLException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
+					JOptionPane.showMessageDialog(null, "You have already this item!");
 				}	
 			}
 		});
@@ -141,7 +147,6 @@ public class Application {
 						myBasket.sumOfItems(lblTotalAmount);
 					} else
 						JOptionPane.showMessageDialog(null, "Choose item first!");
-
 				} catch (SQLException e1) {
 					e1.printStackTrace();
 				}				
@@ -160,6 +165,7 @@ public class Application {
 					table.setModel(myBasket.createModel());
 					myBasket.sumOfPrice(lblTotalPrice);
 					myBasket.sumOfItems(lblTotalAmount);
+					JOptionPane.showMessageDialog(null, "List is clear!");
 				} catch (SQLException e1) {
 					e1.printStackTrace();
 				}
@@ -181,13 +187,13 @@ public class Application {
 		lblName.setBounds(6, 16, 61, 16);
 		frame.getContentPane().add(lblName);
 		
-		JLabel lblCena = new JLabel("Price");
-		lblCena.setBounds(79, 16, 61, 16);
-		frame.getContentPane().add(lblCena);
+		JLabel lblPrice2 = new JLabel("Price");
+		lblPrice2.setBounds(79, 16, 61, 16);
+		frame.getContentPane().add(lblPrice2);
 		
-		JLabel lblAmount_1 = new JLabel("Amount");
-		lblAmount_1.setBounds(152, 16, 61, 16);
-		frame.getContentPane().add(lblAmount_1);
+		JLabel lblAmountResult = new JLabel("Amount");
+		lblAmountResult.setBounds(152, 16, 61, 16);
+		frame.getContentPane().add(lblAmountResult);
 		
 		JLabel lblTotal = new JLabel("Total:");
 		lblTotal.setBounds(6, 215, 61, 16);
